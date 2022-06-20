@@ -7,10 +7,10 @@ interface testing {
   priority: string
 }
 
-const initialValues : testing = {
+const initialValues: testing = {
   title: '',
   description: '',
-  //createdDate: new Date(),
+  createdDate: new Date(),
   priority: ''
 }
 
