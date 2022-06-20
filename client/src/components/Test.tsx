@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 interface testing {
   title: string,
   description: string,
+  createdDate: Date,
   priority: string
 }
 
@@ -29,7 +30,7 @@ export const Test = () => {
       const element = `${values[key]}`;
       setTesting(el => [...el, element]);
     }
-    console.log(testing);
+    // console.log(testing);
   }
 
   return (
