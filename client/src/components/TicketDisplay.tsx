@@ -61,7 +61,7 @@ export const TicketDisplay = ({...props}) => {
     <div className='my-1' style={{marginTop: '1rem'}}>
 
 
-      <Card sx={{ minWidth: 800, maxWidth: 1000 }} variant="outlined">
+      <Card sx={{  }} variant="outlined">
         <CardContent>
           <div className='flex justify-around' style={{ justifyContent: 'space-between' }}>
             <div className='flex flex-col' >

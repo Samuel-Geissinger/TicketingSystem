@@ -1,7 +1,8 @@
-import { Box, Button, FormControl, Input, InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import { Alert, AlertTitle, Box, Button, FormControl, Input, InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import React, { useState } from 'react'
 
 interface testing {
+  [key: string]: any,
   title: string,
   description: string,
   createdDate: Date,
@@ -17,7 +18,7 @@ const initialValues: testing = {
 
 export const Test = () => {
   const [values, setvalues] = useState<testing>(initialValues)
-  const [testing, setTesting] = useState<Array<any>>([]);  
+  const [testing, setTesting] = useState<any>('');
 
   const handleInputChange = (e: any) => {
     const { name, value } = e.target;
@@ -26,17 +27,21 @@ export const Test = () => {
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    for (const key in values) {
-      const element = `${values[key]}`;
-      setTesting(el => [...el, element]);
-    }
-    // console.log(testing);
+    fetch('http://localhost:5143/api/Ticket', { method: 'POST', headers: { 'Content-Type': 'application/json'}, body: JSON.stringify(values) })
+    .then(data => {
+      data.ok ? 
+      setTesting((<Alert severity="success" onClose={() => {setTesting('')}}><AlertTitle><strong>Success</strong></AlertTitle>You have successfully submited the content</Alert>))
+      :
+      setTesting((<Alert severity="error" onClose={() => {setTesting('')}}><AlertTitle><strong>Error</strong></AlertTitle>There was an error sending the content</Alert>)) 
+    })
   }
 
   return (
-    <div>
+    <form>
       <FormControl variant="standard" fullWidth>
-        <TextField 
+        <TextField
+          error={values.title === ''}
+          helperText={values.title === "" ? 'There are no values' : ' '}
           value={values.title}
           onChange={handleInputChange}
           name="title"
@@ -45,7 +50,9 @@ export const Test = () => {
           required
         />
         <TextField 
-          // value={values.description}
+          error={values.description === ''}
+          helperText={values.description === "" ? 'There are no values' : ' '}
+          value={values.description}
           onChange={handleInputChange}
           name='description'
           label='Description'
@@ -63,17 +70,20 @@ export const Test = () => {
             onChange={handleInputChange}
             label='Priority'
             >
-            <MenuItem value=""><em>None</em></MenuItem>
+            {/* <MenuItem value=""><em>None</em></MenuItem> */}
             {[1,2,3,4,5].map(e => <MenuItem key={e} value={e}>{e}</MenuItem>)}
           </Select>
         </FormControl>
-        <Button variant="outlined" onClick={handleClick}>Submit</Button>
+        <Button variant="outlined" onClick={handleClick} type="submit">Submit</Button>
       </FormControl>
       <div>
         {values.title}
         {values.description}
         {values.priority}
       </div>
-    </div>
+      <div>
+        {testing}
+      </div>
+    </form>
   )
 }

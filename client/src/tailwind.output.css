@@ -509,43 +509,147 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
-.fixed {
+.container {
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1536px;
+  }
+}
+
+#root .fixed {
   position: fixed;
 }
 
-.my-1 {
+#root .my-1 {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
 }
 
-.flex {
+#root .flex {
   display: flex;
 }
 
-.flex-row {
+#root .grid {
+  display: grid;
+}
+
+#root .grid-cols-7 {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+#root .flex-row {
   flex-direction: row;
 }
 
-.flex-col {
+#root .flex-col {
   flex-direction: column;
 }
 
-.justify-end {
+#root .justify-end {
   justify-content: flex-end;
 }
 
-.justify-around {
+#root .justify-around {
   justify-content: space-around;
 }
 
-.justify-evenly {
+#root .justify-evenly {
   justify-content: space-evenly;
 }
 
-.transition {
+#root .gap-4 {
+  gap: 1rem;
+}
+
+#root .rounded-2xl {
+  border-radius: 1rem;
+}
+
+#root .rounded {
+  border-radius: 0.25rem;
+}
+
+#root .border-2 {
+  border-width: 2px;
+}
+
+#root .border {
+  border-width: 1px;
+}
+
+#root .border-blue-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(59 130 246 / var(--tw-border-opacity));
+}
+
+#root .bg-transparent {
+  background-color: transparent;
+}
+
+#root .py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+#root .px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+#root .font-semibold {
+  font-weight: 600;
+}
+
+#root .text-blue-700 {
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity));
+}
+
+#root .transition {
   transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, -webkit-text-decoration-color, -webkit-transform, -webkit-filter, -webkit-backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-transform, -webkit-filter, -webkit-backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+
+#root .hover\:border-transparent:hover {
+  border-color: transparent;
+}
+
+#root .hover\:bg-blue-500:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(59 130 246 / var(--tw-bg-opacity));
+}
+
+#root .hover\:text-white:hover {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
