@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TicketingSystem.Models;
@@ -11,21 +12,40 @@ using TicketingSystem.Models;
 namespace TicketingSystem.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20220609174328_FinishedAddingColumns")]
-    partial class FinishedAddingColumns
+    [Migration("20220625212228_AddedQueuesToTicket")]
+    partial class AddedQueuesToTicket
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "6.0.5");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("KnowledgeArticlesTicket", b =>
+                {
+                    b.Property<int>("KnowledgeArticlesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TicketsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("KnowledgeArticlesId", "TicketsId");
+
+                    b.HasIndex("TicketsId");
+
+                    b.ToTable("KnowledgeArticlesTicket");
+                });
 
             modelBuilder.Entity("PermissionsQueue", b =>
                 {
                     b.Property<int>("PermissionsId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("QueuesId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("QueuesId")
+                        .HasColumnType("int");
 
                     b.HasKey("PermissionsId", "QueuesId");
 
@@ -37,10 +57,10 @@ namespace TicketingSystem.Migrations
             modelBuilder.Entity("PermissionsUsers", b =>
                 {
                     b.Property<int>("PermissionsId")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("UsersId")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
 
                     b.HasKey("PermissionsId", "UsersId");
 
@@ -51,21 +71,23 @@ namespace TicketingSystem.Migrations
 
             modelBuilder.Entity("TicketingSystem.Models.Comments", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("TicketId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("TicketId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("UsersId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("UsersId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -78,21 +100,23 @@ namespace TicketingSystem.Migrations
 
             modelBuilder.Entity("TicketingSystem.Models.KnowledgeArticles", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EditedDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("UsersId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("UsersId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -105,10 +129,12 @@ namespace TicketingSystem.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Title")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -117,24 +143,26 @@ namespace TicketingSystem.Migrations
 
             modelBuilder.Entity("TicketingSystem.Models.ProblemTicket", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("ClosedDate")
-                        .HasColumnType("TEXT");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("ClosedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsOpen")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Title")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -143,12 +171,14 @@ namespace TicketingSystem.Migrations
 
             modelBuilder.Entity("TicketingSystem.Models.Queue", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Title")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -157,45 +187,47 @@ namespace TicketingSystem.Migrations
 
             modelBuilder.Entity("TicketingSystem.Models.Ticket", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("int");
 
-                    b.Property<DateTime>("ClosedDate")
-                        .HasColumnType("TEXT");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("ClosedDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsOpen")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<int>("Priority")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("ProblemTicketId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("ProblemTicketId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("QueueId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("QueueId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Status")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("UsersId")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("UsersId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("UsersId1")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("UsersId1")
+                        .HasColumnType("int");
 
-                    b.Property<Guid?>("UsersId2")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("UsersId2")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -214,28 +246,48 @@ namespace TicketingSystem.Migrations
 
             modelBuilder.Entity("TicketingSystem.Models.Users", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("KnowledgeArticlesTicket", b =>
+                {
+                    b.HasOne("TicketingSystem.Models.KnowledgeArticles", null)
+                        .WithMany()
+                        .HasForeignKey("KnowledgeArticlesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TicketingSystem.Models.Ticket", null)
+                        .WithMany()
+                        .HasForeignKey("TicketsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("PermissionsQueue", b =>
@@ -292,7 +344,7 @@ namespace TicketingSystem.Migrations
                         .WithMany("Ticket")
                         .HasForeignKey("ProblemTicketId");
 
-                    b.HasOne("TicketingSystem.Models.Queue", null)
+                    b.HasOne("TicketingSystem.Models.Queue", "Queue")
                         .WithMany("TicketQueue")
                         .HasForeignKey("QueueId");
 
@@ -307,6 +359,8 @@ namespace TicketingSystem.Migrations
                     b.HasOne("TicketingSystem.Models.Users", null)
                         .WithMany("TicketSubmittedBy")
                         .HasForeignKey("UsersId2");
+
+                    b.Navigation("Queue");
                 });
 
             modelBuilder.Entity("TicketingSystem.Models.ProblemTicket", b =>

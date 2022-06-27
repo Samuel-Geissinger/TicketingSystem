@@ -27,7 +27,7 @@ export const Test = () => {
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    fetch('http://localhost:5143/api/Ticket', { method: 'POST', headers: { 'Content-Type': 'application/json'}, body: JSON.stringify(values) })
+    fetch('http://192.168.1.239:5143/api/Ticket', { method: 'POST', headers: { 'Content-Type': 'application/json'}, body: JSON.stringify(values) })
     .then(data => {
       data.ok ? 
       setTesting((<Alert severity="success" onClose={() => {setTesting('')}}><AlertTitle><strong>Success</strong></AlertTitle>You have successfully submited the content</Alert>))

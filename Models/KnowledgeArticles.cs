@@ -7,7 +7,7 @@ namespace TicketingSystem.Models
 {
     public class KnowledgeArticles
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Description { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime EditedDate { get; set; }

@@ -7,7 +7,7 @@ namespace TicketingSystem.Models
 {
     public class Queue
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
 
         public List<Ticket> TicketQueue { get; set; } = null;
