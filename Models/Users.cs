@@ -18,6 +18,14 @@ namespace TicketingSystem.Models
         public List<Permissions> Permissions { get; set; }
         public List<Comments> Comments { get; set; }
 
+
+        private string fullname;
+        public string Fullname
+        {
+            get { return $"{FirstName} {LastName}"; }
+            // set { fullname = value; }
+        }
+        
         // [NotMapped]
         // public List<Ticket> TicketClosedBy { get; set; } = null;
         // [NotMapped]

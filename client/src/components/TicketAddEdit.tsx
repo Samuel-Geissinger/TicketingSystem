@@ -71,6 +71,7 @@ export const TicketAddEdit = () => {
     fetch('http://192.168.1.239:5143/api/Ticket/Edit', { method: 'POST', headers: { 'Content-Type': 'application/json'}, body: JSON.stringify(ticket) })
     .then(data => { return data.ok ? nav() : ''})
   }
+
   const navigate = useNavigate();
   const nav = useCallback(() => navigate('/Tickets', { replace: true }), [navigate]);
 
@@ -87,9 +88,7 @@ export const TicketAddEdit = () => {
         <div>
           <div>
             <div>Created Date: {formatDate(ticket.createdDate)}</div>
-            <button className='bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-1 px-4 border border-blue-500 hover:border-transparent rounded'>Close Ticket</button>
           </div>
-          <div>Comments</div>
           <div className='grid grid-cols-3'>
             <fieldset>
               <legend>

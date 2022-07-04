@@ -26,7 +26,7 @@ import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import LocalActivityIcon from '@mui/icons-material/LocalActivity';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -80,6 +80,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function PersistentDrawerLeft(props: any) {
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -91,20 +92,30 @@ export default function PersistentDrawerLeft(props: any) {
     setOpen(false);
   };
 
+  const navigate = useNavigate();
+  const nav = React.useCallback(() => navigate('Login', { replace: true }), [navigate]);
+  const logout = (e: any) => {
+    e.preventDefault();
+    setOpen(false);
+    props.setLogin(false);
+    nav();
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          <IconButton
+        {props.login && <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
             sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            id='menu'
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton>}
           <Typography variant="h6" noWrap component="div">
             Ticketing System
           </Typography>
@@ -154,43 +165,12 @@ export default function PersistentDrawerLeft(props: any) {
             </ListItem>
           </Link>
           
-          <Link to='/ProblemTickets'>
-            <ListItem key={'Problem Ticket'} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <LocalActivityIcon />
-                </ListItemIcon>
-                <ListItemText primary="Problem Ticket"/>
-              </ListItemButton>
-            </ListItem>
-          </Link>
-
-          <Link to='/KnowledgeArticles'>
-            <ListItem key={'Knowledge Articles'} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <DescriptionIcon />
-                </ListItemIcon>
-                <ListItemText primary="Knowledge Articles"/>
-              </ListItemButton>
-            </ListItem>
-          </Link>
-
-          <Link to='Admin'>
-            <ListItem key={'Admin'} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  <SupervisorAccountIcon />
-                </ListItemIcon>
-                <ListItemText primary="Admin"/>
-              </ListItemButton>
-            </ListItem>
-          </Link>
+          
         </List>
         <Divider />
         <List>
         <ListItem key={'Logout'} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={logout}>
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>

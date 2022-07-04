@@ -94,13 +94,31 @@ public class TicketController: BaseApiContoller
         }
         var ticketList = tickets.ToList();
         ticketList.ForEach(t => t.Queue = queues.FirstOrDefault(q => q.Id == t.QueueId));
-        return ticketList;
-    }
+         return AttachUsers(ticketList);
+   }
 
     [HttpGet("GetAllQueues")]
     public async Task<ActionResult<List<Queue>>> GetAllQueues()
     {
         return _context.Queues.ToList();
+    }
+
+    [HttpGet("GetUserTickets")]
+    public async Task<ActionResult<List<Ticket>>> GetUserTickets(int id)
+    {
+        var ticketList = _context.Tickets.Where(t => t.UsersId == id).ToList();
+        return AttachUsers(ticketList);
+    }
+
+    private List<Ticket> AttachUsers(List<Ticket> tickets) 
+    {
+        var users = _context.Users.Where(u => u.IsActive).ToList();
+        users.ForEach(u => u.Password = null);
+        foreach (var ticket in tickets)
+        {
+            ticket.Users = users.FirstOrDefault(u => u.Id == ticket.UsersId);
+        }
+        return tickets;
     }
 
     
